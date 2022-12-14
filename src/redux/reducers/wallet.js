@@ -16,7 +16,6 @@ const INITIAL_STATE = {
 };
 
 const sum = ({ expenses }) => {
-  console.log(expenses.length);
   const empty = 0;
   if (expenses.length === empty) {
     return;
