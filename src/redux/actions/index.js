@@ -6,6 +6,7 @@ export const SUCESS_API = 'SUCESS_API';
 export const ERROR_API = 'ERROR_API';
 export const SAVE_EXPENSES = 'SAVE_EXPENSES';
 export const SUM_CURRENCY = 'SUM_CURRENCY';
+export const DELETE_EXPENSE = 'DELETE_EXPENSE';
 
 export const login = (data) => ({
   type: LOGIN,
@@ -33,6 +34,11 @@ export const saveExpenses = (data) => ({
 
 export const sumCurrency = () => ({
   type: SUM_CURRENCY,
+});
+
+export const delExpense = (payload) => ({
+  type: DELETE_EXPENSE,
+  payload,
 });
 
 export function fetchAPI() {
