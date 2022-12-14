@@ -25,7 +25,7 @@ const sum = ({ expenses }) => {
     const conversion = exchangeRates[currency].ask * value;
     return acc + conversion;
   }, 0);
-  return total.toFixed(2)
+  return total.toFixed(2);
 };
 
 const expensesReducer = (state = INITIAL_STATE, action) => {
