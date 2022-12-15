@@ -1,21 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { fetchAPI, saveExpenses, sumCurrency } from '../redux/actions';
+import { changeExpense, fetchAPI, saveExpenses, sumCurrency } from '../redux/actions';
 import getCurrencies from '../services/CurrenciesAPI';
 
 class WalletForm extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      id: 0,
-      value: '',
-      description: '',
-      currency: 'USD',
-      method: 'Dinheiro',
-      tag: 'Alimentação',
-    };
-  }
+  state = {
+    id: 0,
+    value: '',
+    description: '',
+    currency: 'USD',
+    method: 'Dinheiro',
+    tag: 'Alimentação',
+  };
 
   componentDidMount() {
     const { dispatch } = this.props;
@@ -57,6 +54,13 @@ class WalletForm extends Component {
     });
   };
 
+  handleEdit = () => {
+    const { dispatch } = this.props;
+    dispatch(changeExpense(this.state));
+    this.resetState();
+    dispatch(sumCurrency());
+  };
+
   render() {
     const {
       value,
@@ -64,7 +68,9 @@ class WalletForm extends Component {
       currency,
       method,
       tag } = this.state;
+
     const { state } = this.props;
+    const { editor, editExpense } = state;
 
     return (
       <div>
@@ -119,12 +125,21 @@ class WalletForm extends Component {
           <option value="Transporte">Transporte</option>
           <option value="Saúde">Saúde</option>
         </select>
-        <button
-          type="button"
-          onClick={ this.handleClick }
-        >
-          Adicionar despesa
-        </button>
+        { editor ? (
+          <button
+            type="button"
+            onClick={ () => this.handleEdit(editExpense) }
+          >
+            Editar despesa
+          </button>
+        ) : (
+          <button
+            type="button"
+            onClick={ this.handleClick }
+          >
+            Adicionar despesa
+          </button>
+        )}
       </div>
     );
   }
@@ -137,7 +152,11 @@ const mapStateToProps = (state) => ({
 WalletForm.propTypes = {
   dispatch: PropTypes.func.isRequired,
   state: PropTypes.shape({
+    editExpense: PropTypes.shape({
+      value: PropTypes.string,
+    }).isRequired,
     currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
+    editor: PropTypes.bool.isRequired,
   }).isRequired,
 };
 

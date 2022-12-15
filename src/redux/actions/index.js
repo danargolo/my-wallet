@@ -1,30 +1,21 @@
 import getCurrencies from '../../services/CurrenciesAPI';
 
 export const LOGIN = 'LOGIN';
-export const REQUEST_API = 'REQUEST_API';
 export const SUCESS_API = 'SUCESS_API';
-export const ERROR_API = 'ERROR_API';
 export const SAVE_EXPENSES = 'SAVE_EXPENSES';
 export const SUM_CURRENCY = 'SUM_CURRENCY';
 export const DELETE_EXPENSE = 'DELETE_EXPENSE';
+export const EDIT_EXPENSE = 'EDIT_EXPENSE';
+export const CHANGE_EXPENSE = 'CHANGE_EXPENSE';
 
 export const login = (data) => ({
   type: LOGIN,
   user: data,
 });
 
-export const requestApi = () => ({
-  type: REQUEST_API,
-});
-
 export const responseSUCESS = (data) => ({
   type: SUCESS_API,
   currencies: data,
-});
-
-export const responseERRO = (error) => ({
-  type: ERROR_API,
-  error,
 });
 
 export const saveExpenses = (data) => ({
@@ -41,17 +32,24 @@ export const delExpense = (payload) => ({
   payload,
 });
 
+export const editExpense = (payload) => ({
+  type: EDIT_EXPENSE,
+  payload,
+});
+
+export const changeExpense = (payload) => ({
+  type: CHANGE_EXPENSE,
+  payload,
+});
+
 export function fetchAPI() {
   return async (dispatch) => {
-    dispatch(requestApi());
-
     try {
       const response = await getCurrencies();
-      // console.log(response);
       const newResponse = Object.keys(response);
       dispatch(responseSUCESS(newResponse));
     } catch (error) {
-      dispatch(responseERRO(error));
+      console.log(error);
     }
   };
 }

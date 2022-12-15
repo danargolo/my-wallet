@@ -1,14 +1,38 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { delExpense, sumCurrency } from '../redux/actions';
+import { delExpense, editExpense, sumCurrency } from '../redux/actions';
 
 class Table extends Component {
+  // state = {
+  //   currency: '',
+  //   description: '',
+  //   exchangeRates: '',
+  //   method: '',
+  //   tag: '',
+  //   value: '',
+  // };
+
   deleteExpense = (exp) => {
     const { dispatch } = this.props;
     dispatch(delExpense(exp));
     dispatch(sumCurrency());
     // console.log(expenses[id]);
+  };
+
+  editExpense = (exp) => {
+    const { dispatch } = this.props;
+    // console.log(exp)
+    const { value, description, currency, method, tag, exchangeRates, id } = exp;
+    this.setState({
+      id,
+      value,
+      description,
+      currency,
+      method,
+      tag,
+      exchangeRates: (exchangeRates[currency].ask),
+    }, () => dispatch(editExpense(this.state)));
   };
 
   render() {
@@ -42,6 +66,13 @@ class Table extends Component {
               </td>
               <td>Real</td>
               <td>
+                <button
+                  type="button"
+                  data-testid="edit-btn"
+                  onClick={ () => this.editExpense(exp) }
+                >
+                  Editar
+                </button>
                 <button
                   type="button"
                   data-testid="delete-btn"

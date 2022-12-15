@@ -3,14 +3,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 class Header extends Component {
-  componentDidUpdate() {
-  // const { dispatch } = this.props;
-  // dispatch(sumCurrency());
-  }
-
   render() {
     const { email, sumCurrency } = this.props;
-    console.log(sumCurrency);
     return (
       <div>
         <div>TrybeWallet</div>

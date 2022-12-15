@@ -1,10 +1,10 @@
 import {
-  ERROR_API,
-  REQUEST_API,
   SUCESS_API,
   SAVE_EXPENSES,
   SUM_CURRENCY,
   DELETE_EXPENSE,
+  EDIT_EXPENSE,
+  CHANGE_EXPENSE,
 } from '../actions';
 
 // Esse reducer será responsável por tratar o todas as informações relacionadas as despesas
@@ -14,7 +14,14 @@ const INITIAL_STATE = {
   editor: false,
   idToEdit: 0,
   sumCurrency: '0,00',
-  teste: [],
+  editExpense: {
+    currency: '',
+    description: '',
+    exchangeRates: '',
+    method: '',
+    tag: '',
+    value: '',
+  },
 };
 
 const sum = ({ expenses }) => {
@@ -34,21 +41,11 @@ const deleteEx = (stateExpenses, payload) => (stateExpenses.filter((extende) => 
   || extende.value !== payload.value)));
 
 const expensesReducer = (state = INITIAL_STATE, action) => {
-  // console.log(action.wallet);
   switch (action.type) {
-  case REQUEST_API:
-    return {
-      ...state,
-    };
   case SUCESS_API:
     return {
       ...state,
       currencies: action.currencies,
-    };
-  case ERROR_API:
-    return {
-      ...state,
-      error: action.error,
     };
   case SAVE_EXPENSES:
     return {
@@ -64,6 +61,30 @@ const expensesReducer = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       expenses: deleteEx(state.expenses, action.payload),
+    };
+  case EDIT_EXPENSE:
+    return {
+      ...state,
+      editExpense: action.payload,
+      editor: !state.editor,
+    };
+  case CHANGE_EXPENSE:
+    return {
+      ...state,
+      expenses: state.expenses.map((exp) => {
+        if (state.editExpense.id === exp.id) {
+          return {
+            ...exp,
+            value: action.payload.value,
+            currency: action.payload.currency,
+            method: action.payload.method,
+            tag: action.payload.tag,
+            description: action.payload.description,
+          };
+        }
+        return exp;
+      }),
+      editor: !state.editor,
     };
   default:
     return state;
