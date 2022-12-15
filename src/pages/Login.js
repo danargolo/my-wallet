@@ -38,16 +38,24 @@ class Login extends React.Component {
       <>
         <div>Login</div>
         <form>
-          <input
-            type="email"
-            data-testid="email-input"
-            onChange={ this.handleChange }
-          />
-          <input
-            type="password"
-            data-testid="password-input"
-            onChange={ this.handleChange }
-          />
+          <label htmlFor="email">
+            Email
+            <input
+              type="email"
+              id="email"
+              data-testid="email-input"
+              onChange={ this.handleChange }
+            />
+          </label>
+          <label htmlFor="password">
+            Password
+            <input
+              type="password"
+              id="password"
+              data-testid="password-input"
+              onChange={ this.handleChange }
+            />
+          </label>
           <Link
             to="/carteira"
           >
