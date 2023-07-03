@@ -6,7 +6,7 @@ class Header extends Component {
   render() {
     const { email, sumCurrency } = this.props;
     return (
-      <div>
+      <header>
         <div>TrybeWallet</div>
         <p
           data-testid="email-field"
@@ -23,7 +23,7 @@ class Header extends Component {
         >
           BRL
         </p>
-      </div>
+      </header>
     );
   }
 }

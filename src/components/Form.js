@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
+import ToggleButton from 'react-bootstrap/ToggleButton';
 import { changeExpense, fetchAPI, saveExpenses, sumCurrency } from '../redux/actions';
 import getCurrencies from '../services/CurrenciesAPI';
+import '../styles/form.css';
+import Income from './IncommingForm';
+import Expense from './ExpenseForm';
 
-class WalletForm extends Component {
+
+export class WalletForm extends Component {
   state = {
     id: 0,
     value: '',
@@ -12,11 +18,12 @@ class WalletForm extends Component {
     currency: 'USD',
     method: 'Dinheiro',
     tag: 'Alimentação',
+    finance: true,
   };
 
   componentDidMount() {
-    const { dispatch } = this.props;
-    dispatch(fetchAPI());
+    // const { dispatch } = this.props;
+    // dispatch(fetchAPI());
   }
 
   handleChange = ({ target }) => {
@@ -42,16 +49,16 @@ class WalletForm extends Component {
   };
 
   handleClick = async () => {
-    const response = await getCurrencies();
+    // const response = await getCurrencies();
+    const { dispatch } = this.props;
+    dispatch(saveExpenses(this.state));
+    this.resetState();
+    dispatch(sumCurrency());
 
-    this.setState({
-      exchangeRates: response,
-    }, () => {
-      const { dispatch } = this.props;
-      dispatch(saveExpenses(this.state));
-      this.resetState();
-      dispatch(sumCurrency());
-    });
+    // this.setState({
+    //   exchangeRates: response,
+    // }, () => {
+    // });
   };
 
   handleEdit = () => {
@@ -67,14 +74,46 @@ class WalletForm extends Component {
       description,
       currency,
       method,
-      tag } = this.state;
+      tag,
+      finance } = this.state;
 
     const { state } = this.props;
-    const { editor, editExpense } = state;
+    // const { editor, editExpense } = state;
 
     return (
-      <div>
-        <input
+      <aside className="form">
+
+        <section className="input_selectors">
+          <ToggleButtonGroup
+            className="mb-2"
+            type="radio"
+            value={ ['Entrada', 'Saída'] }
+            name="radio_inputs"
+          >
+            <ToggleButton
+              className="teste3"
+              type="radio"
+              id="radio_incomming"
+              variant="success"
+              checked
+              onClick={ () => this.setState({ finance: true }) }
+              value="Entrada"
+            >
+              Receita
+            </ToggleButton>
+            <ToggleButton
+              type="radio"
+              id="radio_expense"
+              variant="danger"
+              onClick={ () => this.setState({ finance: false }) }
+              value="Saída"
+            >
+              Despesa
+            </ToggleButton>
+          </ToggleButtonGroup>
+        </section>
+        { finance ? <Income /> : <Expense />}
+        {/* <input
           type="number"
           data-testid="value-input"
           name="value"
@@ -139,8 +178,8 @@ class WalletForm extends Component {
           >
             Adicionar despesa
           </button>
-        )}
-      </div>
+        )} */}
+      </aside>
     );
   }
 }

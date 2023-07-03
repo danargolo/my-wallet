@@ -13,7 +13,7 @@ class Login extends React.Component {
 
   validateForms = () => {
     const { email, password } = this.state;
-    const regex = /^[a-z0-9._+-]+@[a-z0-9]+\.[a-z]+(\.[a-z]{2,4})?$/i;
+    const regex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/igm;
     const emailValidation = regex.test(email);
 
     const passwordLength = 6;

@@ -1,6 +1,6 @@
 import {
   SUCESS_API,
-  SAVE_EXPENSES,
+  SAVE,
   SUM_CURRENCY,
   DELETE_EXPENSE,
   EDIT_EXPENSE,
@@ -11,6 +11,7 @@ import {
 const INITIAL_STATE = {
   currencies: [],
   expenses: [],
+  save:[],
   editor: false,
   idToEdit: 0,
   sumCurrency: '0,00',
@@ -47,10 +48,10 @@ const expensesReducer = (state = INITIAL_STATE, action) => {
       ...state,
       currencies: action.currencies,
     };
-  case SAVE_EXPENSES:
+  case SAVE:
     return {
       ...state,
-      expenses: [...state.expenses, action.expenses],
+      save: [...state.save, action.save],
     };
   case SUM_CURRENCY:
     return {

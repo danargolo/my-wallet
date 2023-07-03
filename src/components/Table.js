@@ -59,10 +59,10 @@ class Table extends Component {
               <td>{ exp.tag }</td>
               <td>{ exp.method }</td>
               <td>{ (+exp.value).toFixed(2) }</td>
-              <td>{ exp.exchangeRates[exp.currency].name }</td>
-              <td>{ (+exp.exchangeRates[exp.currency].ask).toFixed(2) }</td>
+              {/* <td>{ exp.exchangeRates[exp.currency].name }</td> */}
+              {/* <td>{ (+exp.exchangeRates[exp.currency].ask).toFixed(2) }</td> */}
               <td>
-                { ((+exp.exchangeRates[exp.currency].ask) * (exp.value)).toFixed(2) }
+                {/* { ((+exp.exchangeRates[exp.currency].ask) * (exp.value)).toFixed(2) } */}
               </td>
               <td>Real</td>
               <td>
